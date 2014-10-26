@@ -1,12 +1,24 @@
 security:
     providers:
-        in_memory:
-            memory: ~
-
+        main:
+            propel:
+                class:  Nurolopher\BlogBundle\Model\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        default:
-            anonymous: ~
+        secured_area:
+            pattern: ^/
+            anonymous:  ~
+            form_login:
+              login_path: login
+              check_path:  login_check
+    access_control:
+      - { path: ^/users, roles: ROLE_ADMIN }
+      - { path: ^/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    encoders:
+        Nurolopher\BlogBundle\Model\User:
+          algorithm:  sha512
+          encode_as_base64: true
+          iterations: 1

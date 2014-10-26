@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<database defaultIdMethod="native"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.7/database.xsd"
+          name="default"
+          namespace="Nurolopher\BlogBundle\Model"
+        >
+
+    <table name="post">
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="title" type="VARCHAR" required="true" size="255"/>
+        <column name="body" type="LONGVARCHAR" required="true"/>
+        <behavior name="timestampable"/>
+        <column name="user_id" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <validator column="title">
+            <rule name="required" message="Title is required"/>
+        </validator>
+        <validator column="body">
+            <rule name="required" message="Post body is required"/>
+            <rule name="minLength" value="4" message="Post body must be at least ${value} characters"/>
+        </validator>
+    </table>
+
+    <table name="category">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="false"/>
+        <column name="title" type="VARCHAR" size="100" required="true"/>
+        <validator column="title">
+            <rule name="required"/>
+        </validator>
+    </table>
+
+    <table name="post_category" isCrossRef="true">
+        <column name="post_id" type="INTEGER" required="true" primaryKey="true"/>
+        <column name="category_id" type="INTEGER" required="true" primaryKey="true"/>
+        <foreign-key foreignTable="post">
+            <reference local="post_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="category">
+            <reference local="category_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="comment">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="body" type="LONGVARCHAR" required="true"/>
+        <column name="post_id" type="INTEGER"/>
+        <column name="user_id" type="INTEGER"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="post">
+            <reference local="post_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="user">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="email" type="VARCHAR" required="true"/>
+        <column name="salt" type="VARCHAR"/>
+        <column name="password" type="VARCHAR" required="true"/>
+        <column name="firstname" type="VARCHAR" size="64" required="true"/>
+        <column name="lastname" type="VARCHAR" size="64" required="false"/>
+        <column name="group_id" type="INTEGER" required="true"/>
+
+        <foreign-key foreignTable="group">
+            <reference local="group_id" foreign="id"/>
+        </foreign-key>
+        <validator column="email">
+            <rule name="match"
+                  value="/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+$/"
+                  message="Please enter a valid email address"/>
+            <rule name="unique"
+                  message="Email already exists"/>
+        </validator>
+        <validator column="group_id">
+            <rule name="required"/>
+        </validator>
+        <validator column="firstname">
+            <rule name="required"/>
+            <rule name="minLength" value="3" message="Firstname must be at least ${value} characters"/>
+        </validator>
+        <unique>
+            <unique-column name="email"/>
+        </unique>
+
+    </table>
+    <table name="group">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="name" type="VARCHAR" required="true"/>
+        <column name="roles" type="array" required="true"/>
+    </table>
+</database>

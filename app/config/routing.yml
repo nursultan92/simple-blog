@@ -1,0 +1,4 @@
+nurolopher_blog:
+    resource: "@NurolopherBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+

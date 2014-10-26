@@ -1,0 +1,8 @@
+{% extends "@NurolopherBlog/admin.html.twig" %}
+{% block body %}
+    {% for user in users %}
+        {{ user.email }}
+        {{ user.firstname }}
+        {{ user.lastname }}
+    {% endfor %}
+{% endblock %}

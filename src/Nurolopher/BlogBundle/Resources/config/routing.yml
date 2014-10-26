@@ -1,0 +1,29 @@
+nurolopher_blog_homepage:
+    path:     /posts/
+    defaults: { _controller: NurolopherBlogBundle:Post:index }
+
+nurolopher_blog_post_new:
+    path:   /posts/new
+    defaults: { _controller:  NurolopherBlogBundle:Post:new }
+
+nurolopher_blog_group_index:
+    path:   /groups/
+    defaults: { _controller:  NurolopherBlogBundle:Group:index }
+
+nurolopher_blog_group_new:
+    path:   /groups/new
+    defaults: { _controller:  NurolopherBlogBundle:Group:new }
+
+nurolopher_blog_user_index:
+    path:   /users/
+    defaults: { _controller:  NurolopherBlogBundle:User:index }
+
+nurolopher_blog_user_new:
+    path:   /users/new
+    defaults: { _controller:  NurolopherBlogBundle:User:new }
+
+login:
+    path:     /login
+    defaults: { _controller: NurolopherBlogBundle:User:login }
+login_check:
+    path: /login_check
