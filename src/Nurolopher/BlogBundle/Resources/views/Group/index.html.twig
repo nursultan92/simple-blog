@@ -1,8 +1,14 @@
-{% extends '@NurolopherBlog/admin.html.twig' %}
+{% extends '::base.html.twig' %}
 {% block body %}
-    {% for group in groups %}
-        {{ group.name }}
-        {{ group.roles|join(" ") }}
-    {% endfor %}
+    <ul>
+        {% for group in groups %}
+            <li>
+                <a href="{{ path('nurolopher_blog_group_edit',{'id': group.id}) }}">{{ group.name }}</a>
+                {{ group.roles|join(" ") }}
+                <a href="{{ path('nurolopher_blog_group_edit',{'id':group.id}) }}">Edit</a>
+            </li>
+
+        {% endfor %}
+    </ul>
 
 {% endblock %}

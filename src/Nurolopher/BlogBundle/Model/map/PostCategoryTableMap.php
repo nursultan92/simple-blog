@@ -53,7 +53,7 @@ class PostCategoryTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::MANY_TO_ONE, array('post_id' => 'id', ), null, null);
+        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::MANY_TO_ONE, array('post_id' => 'id', ), 'CASCADE', null);
         $this->addRelation('Category', 'Nurolopher\\BlogBundle\\Model\\Category', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), null, null);
     } // buildRelations()
 

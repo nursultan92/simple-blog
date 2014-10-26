@@ -46,6 +46,7 @@ class GroupTableMap extends TableMap
         $this->addColumn('name', 'Name', 'VARCHAR', true, 255, null);
         $this->addColumn('roles', 'Roles', 'ARRAY', true, null, null);
         // validators
+        $this->addValidator('name', 'minLength', 'propel.validator.MinLengthValidator', '3', '');
     } // initialize()
 
     /**

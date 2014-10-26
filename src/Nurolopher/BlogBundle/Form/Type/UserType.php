@@ -20,10 +20,10 @@ class UserType extends AbstractType{
         $builder->add('email','email')
             ->add('firstname','text')
             ->add('lastname','text',array('required'=>false))
-            /*->add('group','model',array(
+            ->add('group','model',array(
                 'class'=>'Nurolopher\BlogBundle\Model\Group',
                 'property'=>'name'
-            ))*/
+            ))
             ->add('password','repeated',array(
                 'type'=>'password',
                 'invalid_message'=>'The password fields must match',
@@ -32,7 +32,7 @@ class UserType extends AbstractType{
                 'second_options'=>array('label'=>'Repeat Password'),
             ))
 
-            ->add('submit','submit');
+            ->add('submit','submit',array('attr'=>array('class'=>'btn')));
     }
 
 

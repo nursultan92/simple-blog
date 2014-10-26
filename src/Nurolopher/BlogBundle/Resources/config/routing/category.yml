@@ -1,0 +1,19 @@
+nurolopher_blog_category_index:
+    path:   /
+    defaults: { _controller:  NurolopherBlogBundle:Category:index }
+
+nurolopher_blog_category_new:
+    path:   /new
+    defaults: { _controller:  NurolopherBlogBundle:Category:new }
+
+nurolopher_blog_category_edit:
+    path:   /{id}/edit
+    defaults: { _controller:  NurolopherBlogBundle:Category:edit }
+    requirements:
+      id: \d+
+nurolopher_blog_category_delete:
+    path: /{id}/delete
+    defaults: { _controller:  NurolopherBlogBundle:Category:delete}
+    requirements:
+      id:
+        \d+

@@ -1,0 +1,13 @@
+nurolopher_blog_group_index:
+    path:   /
+    defaults: { _controller:  NurolopherBlogBundle:Group:index }
+
+nurolopher_blog_group_new:
+    path:   /new
+    defaults: { _controller:  NurolopherBlogBundle:Group:new }
+
+nurolopher_blog_group_edit:
+    path:   /{id}/edit
+    defaults: { _controller:  NurolopherBlogBundle:Group:edit }
+    requirements:
+      id: \d+

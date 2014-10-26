@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <a href="{{ path('nurolopher_blog_category_new') }}">Create new category</a>
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{{ path('nurolopher_blog_category_edit',{'id':category.id}) }}">{{ loop.index }}</a>
+                {{ category.title }}
+                <a href="{{ path('nurolopher_blog_category_edit',{'id':category.id}) }}">Edit</a>
+                <a href="{{ path('nurolopher_blog_category_delete',{id: category.id}) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

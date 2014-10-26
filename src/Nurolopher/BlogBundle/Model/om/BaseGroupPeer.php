@@ -705,6 +705,9 @@ abstract class BaseGroupPeer
             }
         } else {
 
+        if ($obj->isNew() || $obj->isColumnModified(GroupPeer::NAME))
+            $columns[GroupPeer::NAME] = $obj->getName();
+
         }
 
         return BasePeer::doValidate(GroupPeer::DATABASE_NAME, GroupPeer::TABLE_NAME, $columns);

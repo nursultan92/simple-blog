@@ -19,7 +19,13 @@ class PostType extends AbstractType
     {
         $builder->add('title')
             ->add('body')
-            ->add('submit','submit');
+            ->add('categories','model',array(
+                'class'=>'Nurolopher\BlogBundle\Model\Category',
+                'property'=>'title',
+                'multiple'=>true,
+                'expanded'=>true
+            ))
+            ->add('submit','submit',array('attr'=>array('class'=>'btn btn-primary')));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

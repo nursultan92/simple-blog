@@ -28,9 +28,22 @@ class GroupController extends Controller
         $group = new Group();
         $form = $this->createForm(new GroupType(), $group);
         $form->handleRequest($request);
-        if ($group->validate()) {
+        if ($group->validate() && $form->isValid()) {
             $group->save();
+            $this->get('session')->getFlashBag()->add('notice','New group has been successfully created');
+            return $this->redirect($this->generateUrl('nurolopher_blog_group_index'));
         }
         return $this->render('NurolopherBlogBundle:Group:new.html.twig', array('form' => $form->createView()));
+    }
+
+    public function editAction($id)
+    {
+        $group = GroupQuery::create()->findPk($id);
+        if(!$group){
+            throw new \PropelException();
+        }
+        $form = $this->createForm(new GroupType(),$group);
+        $form->handleRequest($this->get('request'));
+        return $this->render('NurolopherBlogBundle:Group:edit.html.twig',array('form'=>$form->createView()));
     }
 } 

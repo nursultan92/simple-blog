@@ -15,8 +15,10 @@ security:
               login_path: login
               check_path:  login_check
     access_control:
-      - { path: ^/users, roles: ROLE_ADMIN }
       - { path: ^/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/users, roles: ROLE_ADMIN }
+      - { path: ^/groups, roles: ROLE_ADMIN }
+      - { path: ^/categories, roles: ROLE_ADMIN }
     encoders:
         Nurolopher\BlogBundle\Model\User:
           algorithm:  sha512

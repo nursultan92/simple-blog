@@ -63,8 +63,8 @@ class UserTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Group', 'Nurolopher\\BlogBundle\\Model\\Group', RelationMap::MANY_TO_ONE, array('group_id' => 'id', ), null, null);
-        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), null, null, 'Posts');
-        $this->addRelation('Comment', 'Nurolopher\\BlogBundle\\Model\\Comment', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), null, null, 'Comments');
+        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), 'CASCADE', null, 'Posts');
+        $this->addRelation('Comment', 'Nurolopher\\BlogBundle\\Model\\Comment', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), 'CASCADE', null, 'Comments');
     } // buildRelations()
 
 } // UserTableMap

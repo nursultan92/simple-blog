@@ -1,0 +1,25 @@
+nurolopher_blog_user_index:
+    path:   /
+    defaults: { _controller:  NurolopherBlogBundle:User:index }
+
+nurolopher_blog_user_new:
+    path:   /new
+    defaults: { _controller:  NurolopherBlogBundle:User:new }
+
+nurolopher_blog_user_show:
+    path:   /{id}/show
+    defaults: { _controller:  NurolopherBlogBundle:User:show  }
+    requirements:
+      id: \d+
+
+nurolopher_blog_user_edit:
+    path:   /{id}/edit
+    defaults: { _controller:  NurolopherBlogBundle:User:edit}
+    requirements:
+      id: \d+
+
+nurolopher_blog_user_delete:
+    path:   /{id}/delete
+    defaults: { _controller:  NurolopherBlogBundle:User:delete}
+    requirements:
+      id: \d+

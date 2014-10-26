@@ -12,7 +12,7 @@
         <column name="body" type="LONGVARCHAR" required="true"/>
         <behavior name="timestampable"/>
         <column name="user_id" type="INTEGER" required="true"/>
-        <foreign-key foreignTable="user">
+        <foreign-key foreignTable="user" onDelete="cascade">
             <reference local="user_id" foreign="id"/>
         </foreign-key>
         <validator column="title">
@@ -22,25 +22,38 @@
             <rule name="required" message="Post body is required"/>
             <rule name="minLength" value="4" message="Post body must be at least ${value} characters"/>
         </validator>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+        </vendor>
     </table>
 
     <table name="category">
-        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="false"/>
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="title" type="VARCHAR" size="100" required="true"/>
         <validator column="title">
             <rule name="required"/>
+            <rule name="unique"/>
         </validator>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+        </vendor>
     </table>
 
     <table name="post_category" isCrossRef="true">
         <column name="post_id" type="INTEGER" required="true" primaryKey="true"/>
         <column name="category_id" type="INTEGER" required="true" primaryKey="true"/>
-        <foreign-key foreignTable="post">
+        <foreign-key foreignTable="post" onDelete="cascade">
             <reference local="post_id" foreign="id"/>
         </foreign-key>
         <foreign-key foreignTable="category">
             <reference local="category_id" foreign="id"/>
         </foreign-key>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+        </vendor>
     </table>
     <table name="comment">
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
@@ -48,12 +61,16 @@
         <column name="post_id" type="INTEGER"/>
         <column name="user_id" type="INTEGER"/>
         <behavior name="timestampable"/>
-        <foreign-key foreignTable="post">
+        <foreign-key foreignTable="post" onDelete="CASCADE">
             <reference local="post_id" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="user">
+        <foreign-key foreignTable="user" onDelete="CASCADE">
             <reference local="user_id" foreign="id"/>
         </foreign-key>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+        </vendor>
     </table>
     <table name="user">
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
@@ -64,7 +81,7 @@
         <column name="lastname" type="VARCHAR" size="64" required="false"/>
         <column name="group_id" type="INTEGER" required="true"/>
 
-        <foreign-key foreignTable="group">
+        <foreign-key foreignTable="group" onDelete="RESTRICT">
             <reference local="group_id" foreign="id"/>
         </foreign-key>
         <validator column="email">
@@ -84,11 +101,22 @@
         <unique>
             <unique-column name="email"/>
         </unique>
-
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+        </vendor>
     </table>
     <table name="group">
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="name" type="VARCHAR" required="true"/>
         <column name="roles" type="array" required="true"/>
+        <validator column="name">
+            <rule name="minLength" value="3"/>
+        </validator>
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+        </vendor>
     </table>
+
 </database>

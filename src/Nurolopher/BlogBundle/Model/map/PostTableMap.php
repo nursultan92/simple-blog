@@ -59,9 +59,9 @@ class PostTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('User', 'Nurolopher\\BlogBundle\\Model\\User', RelationMap::MANY_TO_ONE, array('user_id' => 'id', ), null, null);
-        $this->addRelation('PostCategory', 'Nurolopher\\BlogBundle\\Model\\PostCategory', RelationMap::ONE_TO_MANY, array('id' => 'post_id', ), null, null, 'PostCategories');
-        $this->addRelation('Comment', 'Nurolopher\\BlogBundle\\Model\\Comment', RelationMap::ONE_TO_MANY, array('id' => 'post_id', ), null, null, 'Comments');
+        $this->addRelation('User', 'Nurolopher\\BlogBundle\\Model\\User', RelationMap::MANY_TO_ONE, array('user_id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('PostCategory', 'Nurolopher\\BlogBundle\\Model\\PostCategory', RelationMap::ONE_TO_MANY, array('id' => 'post_id', ), 'CASCADE', null, 'PostCategories');
+        $this->addRelation('Comment', 'Nurolopher\\BlogBundle\\Model\\Comment', RelationMap::ONE_TO_MANY, array('id' => 'post_id', ), 'CASCADE', null, 'Comments');
         $this->addRelation('Category', 'Nurolopher\\BlogBundle\\Model\\Category', RelationMap::MANY_TO_MANY, array(), null, null, 'Categories');
     } // buildRelations()
 

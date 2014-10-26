@@ -712,10 +712,9 @@ abstract class BasePost extends BaseObject implements Persistent
 
             if ($this->commentsScheduledForDeletion !== null) {
                 if (!$this->commentsScheduledForDeletion->isEmpty()) {
-                    foreach ($this->commentsScheduledForDeletion as $comment) {
-                        // need to save related object because we set the relation to null
-                        $comment->save($con);
-                    }
+                    CommentQuery::create()
+                        ->filterByPrimaryKeys($this->commentsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
                     $this->commentsScheduledForDeletion = null;
                 }
             }

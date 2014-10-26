@@ -9,7 +9,9 @@ use \PDOStatement;
 use \Propel;
 use \PropelException;
 use \PropelPDO;
+use Nurolopher\BlogBundle\Model\CommentPeer;
 use Nurolopher\BlogBundle\Model\Post;
+use Nurolopher\BlogBundle\Model\PostCategoryPeer;
 use Nurolopher\BlogBundle\Model\PostPeer;
 use Nurolopher\BlogBundle\Model\UserPeer;
 use Nurolopher\BlogBundle\Model\map\PostTableMap;
@@ -386,6 +388,12 @@ abstract class BasePostPeer
      */
     public static function clearRelatedInstancePool()
     {
+        // Invalidate objects in PostCategoryPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        PostCategoryPeer::clearInstancePool();
+        // Invalidate objects in CommentPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        CommentPeer::clearInstancePool();
     }
 
     /**
@@ -853,6 +861,7 @@ abstract class BasePostPeer
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
+            $affectedRows += PostPeer::doOnDeleteCascade(new Criteria(PostPeer::DATABASE_NAME), $con);
             $affectedRows += BasePeer::doDeleteAll(PostPeer::TABLE_NAME, $con, PostPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
@@ -886,24 +895,14 @@ abstract class BasePostPeer
         }
 
         if ($values instanceof Criteria) {
-            // invalidate the cache for all objects of this type, since we have no
-            // way of knowing (without running a query) what objects should be invalidated
-            // from the cache based on this Criteria.
-            PostPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
         } elseif ($values instanceof Post) { // it's a model object
-            // invalidate the cache for this single object
-            PostPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(PostPeer::DATABASE_NAME);
             $criteria->add(PostPeer::ID, (array) $values, Criteria::IN);
-            // invalidate the cache for this object(s)
-            foreach ((array) $values as $singleval) {
-                PostPeer::removeInstanceFromPool($singleval);
-            }
         }
 
         // Set the correct dbName
@@ -916,6 +915,23 @@ abstract class BasePostPeer
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
 
+            // cloning the Criteria in case it's modified by doSelect() or doSelectStmt()
+            $c = clone $criteria;
+            $affectedRows += PostPeer::doOnDeleteCascade($c, $con);
+
+            // Because this db requires some delete cascade/set null emulation, we have to
+            // clear the cached instance *after* the emulation has happened (since
+            // instances get re-added by the select statement contained therein).
+            if ($values instanceof Criteria) {
+                PostPeer::clearInstancePool();
+            } elseif ($values instanceof Post) { // it's a model object
+                PostPeer::removeInstanceFromPool($values);
+            } else { // it's a primary key, or an array of pks
+                foreach ((array) $values as $singleval) {
+                    PostPeer::removeInstanceFromPool($singleval);
+                }
+            }
+
             $affectedRows += BasePeer::doDelete($criteria, $con);
             PostPeer::clearRelatedInstancePool();
             $con->commit();
@@ -925,6 +941,45 @@ abstract class BasePostPeer
             $con->rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * This is a method for emulating ON DELETE CASCADE for DBs that don't support this
+     * feature (like MySQL or SQLite).
+     *
+     * This method is not very speedy because it must perform a query first to get
+     * the implicated records and then perform the deletes by calling those Peer classes.
+     *
+     * This method should be used within a transaction if possible.
+     *
+     * @param      Criteria $criteria
+     * @param      PropelPDO $con
+     * @return int The number of affected rows (if supported by underlying database driver).
+     */
+    protected static function doOnDeleteCascade(Criteria $criteria, PropelPDO $con)
+    {
+        // initialize var to track total num of affected rows
+        $affectedRows = 0;
+
+        // first find the objects that are implicated by the $criteria
+        $objects = PostPeer::doSelect($criteria, $con);
+        foreach ($objects as $obj) {
+
+
+            // delete related PostCategory objects
+            $criteria = new Criteria(PostCategoryPeer::DATABASE_NAME);
+
+            $criteria->add(PostCategoryPeer::POST_ID, $obj->getId());
+            $affectedRows += PostCategoryPeer::doDelete($criteria, $con);
+
+            // delete related Comment objects
+            $criteria = new Criteria(CommentPeer::DATABASE_NAME);
+
+            $criteria->add(CommentPeer::POST_ID, $obj->getId());
+            $affectedRows += CommentPeer::doDelete($criteria, $con);
+        }
+
+        return $affectedRows;
     }
 
     /**

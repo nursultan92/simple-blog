@@ -14,10 +14,16 @@ CREATE TABLE `post`
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(255) NOT NULL,
     `body` TEXT NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `created_at` DATETIME,
     `updated_at` DATETIME,
-    PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+    PRIMARY KEY (`id`),
+    INDEX `post_FI_1` (`user_id`),
+    CONSTRAINT `post_FK_1`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE CASCADE
+) ENGINE=InnoDB CHARACTER SET='utf8';
 
 -- ---------------------------------------------------------------------
 -- category
@@ -27,10 +33,10 @@ DROP TABLE IF EXISTS `category`;
 
 CREATE TABLE `category`
 (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+) ENGINE=InnoDB CHARACTER SET='utf8';
 
 -- ---------------------------------------------------------------------
 -- post_category
@@ -43,9 +49,15 @@ CREATE TABLE `post_category`
     `post_id` INTEGER NOT NULL,
     `category_id` INTEGER NOT NULL,
     PRIMARY KEY (`post_id`,`category_id`),
-    UNIQUE INDEX `post_category_U_1` (`post_id`, `category_id`),
-    INDEX `post_category_FI_2` (`category_id`)
-) ENGINE=MyISAM;
+    INDEX `post_category_FI_2` (`category_id`),
+    CONSTRAINT `post_category_FK_1`
+        FOREIGN KEY (`post_id`)
+        REFERENCES `post` (`id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `post_category_FK_2`
+        FOREIGN KEY (`category_id`)
+        REFERENCES `category` (`id`)
+) ENGINE=InnoDB CHARACTER SET='utf8';
 
 -- ---------------------------------------------------------------------
 -- comment
@@ -63,8 +75,16 @@ CREATE TABLE `comment`
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),
     INDEX `comment_FI_1` (`post_id`),
-    INDEX `comment_FI_2` (`user_id`)
-) ENGINE=MyISAM;
+    INDEX `comment_FI_2` (`user_id`),
+    CONSTRAINT `comment_FK_1`
+        FOREIGN KEY (`post_id`)
+        REFERENCES `post` (`id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `comment_FK_2`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`id`)
+        ON DELETE CASCADE
+) ENGINE=InnoDB CHARACTER SET='utf8';
 
 -- ---------------------------------------------------------------------
 -- user
@@ -74,17 +94,20 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user`
 (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(255) NOT NULL,
     `salt` VARCHAR(255),
     `password` VARCHAR(255) NOT NULL,
     `firstname` VARCHAR(64) NOT NULL,
     `lastname` VARCHAR(64),
-    `group_id` INTEGER,
+    `group_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `user_U_1` (`email`),
-    INDEX `user_FI_1` (`group_id`)
-) ENGINE=MyISAM;
+    INDEX `user_FI_1` (`group_id`),
+    CONSTRAINT `user_FK_1`
+        FOREIGN KEY (`group_id`)
+        REFERENCES `group` (`id`)
+) ENGINE=InnoDB CHARACTER SET='utf8';
 
 -- ---------------------------------------------------------------------
 -- group
@@ -98,7 +121,7 @@ CREATE TABLE `group`
     `name` VARCHAR(255) NOT NULL,
     `roles` TEXT NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+) ENGINE=InnoDB CHARACTER SET='utf8';
 
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

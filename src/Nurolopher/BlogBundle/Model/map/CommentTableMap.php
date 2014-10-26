@@ -56,8 +56,8 @@ class CommentTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::MANY_TO_ONE, array('post_id' => 'id', ), null, null);
-        $this->addRelation('User', 'Nurolopher\\BlogBundle\\Model\\User', RelationMap::MANY_TO_ONE, array('user_id' => 'id', ), null, null);
+        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::MANY_TO_ONE, array('post_id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('User', 'Nurolopher\\BlogBundle\\Model\\User', RelationMap::MANY_TO_ONE, array('user_id' => 'id', ), 'CASCADE', null);
     } // buildRelations()
 
     /**

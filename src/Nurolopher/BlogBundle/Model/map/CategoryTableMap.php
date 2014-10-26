@@ -40,12 +40,13 @@ class CategoryTableMap extends TableMap
         $this->setPhpName('Category');
         $this->setClassname('Nurolopher\\BlogBundle\\Model\\Category');
         $this->setPackage('src.Nurolopher.BlogBundle.Model');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 100, null);
         // validators
         $this->addValidator('title', 'required', 'propel.validator.RequiredValidator', '', '');
+        $this->addValidator('title', 'unique', 'propel.validator.UniqueValidator', '', '');
     } // initialize()
 
     /**
@@ -54,7 +55,7 @@ class CategoryTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('PostCategory', 'Nurolopher\\BlogBundle\\Model\\PostCategory', RelationMap::ONE_TO_MANY, array('id' => 'category_id', ), null, null, 'PostCategories');
-        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::MANY_TO_MANY, array(), null, null, 'Posts');
+        $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::MANY_TO_MANY, array(), 'CASCADE', null, 'Posts');
     } // buildRelations()
 
 } // CategoryTableMap

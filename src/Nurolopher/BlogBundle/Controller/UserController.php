@@ -11,6 +11,7 @@ namespace Nurolopher\BlogBundle\Controller;
 
 use Nurolopher\BlogBundle\Form\Type\UserType;
 use Nurolopher\BlogBundle\Model\GroupQuery;
+use Nurolopher\BlogBundle\Model\PostQuery;
 use Nurolopher\BlogBundle\Model\User;
 use Nurolopher\BlogBundle\Model\UserQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,17 +32,14 @@ class UserController extends Controller
         $user = new User();
         $form = $this->createForm(new UserType(), $user);
         $form->handleRequest($request);
-        if ($user->validate()) {
-            $group = GroupQuery::create()->findOneByName('User');
-
+        if ($form->isValid()) {
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
             $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
 
-            $user->setGroup($group);
-
             $user->setPassword($password);
             $user->save();
+            return $this->redirect($this->generateUrl('nurolopher_blog_homepage'));
         }
         return $this->render('NurolopherBlogBundle:User:new.html.twig', array('form' => $form->createView()));
     }
@@ -73,5 +71,43 @@ class UserController extends Controller
                 'error' => $error,
             )
         );
+    }
+
+    public function showAction($id)
+    {
+        $user = UserQuery::create()->findPk($id);
+        if (!$user) {
+            throw new \PropelException();
+        }
+        return $this->render('NurolopherBlogBundle:User:show.html.twig', array('user' => $user));
+    }
+
+    public function editAction($id)
+    {
+        $user = UserQuery::create()->findPk($id);
+        $form = $this->createForm(new UserType(), $user);
+        if (!$user) {
+            throw new \PropelException();
+        }
+        return $this->render('NurolopherBlogBundle:User:edit.html.twig', array('form' => $form->createView()));
+    }
+
+    public function deleteAction($id)
+    {
+        $user = UserQuery::create()->findPk($id);
+        if ($user) {
+            try {
+                $user->delete();
+            } catch (\PropelException $e) {
+                throw new \PropelException();
+            }
+        }
+
+        return $this->redirect($this->generateUrl('nurolopher_blog_user_index'));
+    }
+
+    public function registerAction()
+    {
+        return $this->render('@NurolopherBlog/Post/register.html.twig', array(''));
     }
 } 

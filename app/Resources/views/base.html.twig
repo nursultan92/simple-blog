@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+{% block header %}
+    <ul>
+        <li><a href="{{ path('nurolopher_blog_homepage') }}">Home</a></li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('nurolopher_blog_category_index') }}">Categories</a></li>
+            <li><a href="{{ path('nurolopher_blog_user_index') }}">Users</a></li>
+            <li><a href="{{ path('nurolopher_blog_post_new') }}">New post</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    {{ flashMessage }}
+{% endfor %}
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
 </html>
