@@ -24,12 +24,14 @@ class GroupType extends AbstractType
                         'ROLE_ADMIN' => 'Admin',
                         'ROLE_MODERATOR' => 'Moderator',
                         'ROLE_USER' => 'User',
-                    )
+                    ),
+
                 ),
+
                 'multiple'=>true,
                 'expanded'=>true
             ))
-            ->add('submit','submit');
+            ->add('submit','submit',array('attr'=>array('class'=>'btn btn-primary')));
     }
 
 

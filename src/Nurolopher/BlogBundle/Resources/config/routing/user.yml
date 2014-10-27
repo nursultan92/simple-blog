@@ -1,14 +1,14 @@
 nurolopher_blog_user_index:
     path:   /
-    defaults: { _controller:  NurolopherBlogBundle:User:index }
+    defaults: { _controller:  NurolopherBlogBundle:User:index}
 
 nurolopher_blog_user_new:
     path:   /new
-    defaults: { _controller:  NurolopherBlogBundle:User:new }
+    defaults: { _controller:  NurolopherBlogBundle:User:new}
 
 nurolopher_blog_user_show:
     path:   /{id}/show
-    defaults: { _controller:  NurolopherBlogBundle:User:show  }
+    defaults: { _controller:  NurolopherBlogBundle:User:show}
     requirements:
       id: \d+
 
@@ -23,3 +23,7 @@ nurolopher_blog_user_delete:
     defaults: { _controller:  NurolopherBlogBundle:User:delete}
     requirements:
       id: \d+
+
+nurolopher_blog_user_signup:
+    path: /signup
+    defaults: { _controller:  NurolopherBlogBundle:User:signup}

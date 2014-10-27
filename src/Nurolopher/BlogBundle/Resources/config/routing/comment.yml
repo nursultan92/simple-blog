@@ -1,0 +1,21 @@
+nurolopher_blog_comment_index:
+  path: /
+  defaults: { _controller:  NurolopherBlogBundle:Comment:index}
+
+nurolopher_blog_comment_new:
+  path: /posts/{id}/new
+  defaults: {_controller: NurolopherBlogBundle:Comment:new }
+  requirements:
+    id: \d+
+
+nurolopher_blog_comment_edit:
+  path: /{id}/edit
+  defaults: {_controller: NurolopherBlogBundle:Comment:edit }
+  requirements:
+    id: \d+
+
+nurolopher_blog_comment_delete:
+  path: /{id}/delete
+  defaults: {_controller: NurolopherBlogBundle:Comment:delete}
+  requirements:
+    id: \d+

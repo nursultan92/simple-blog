@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $form->handleRequest($request);
         if ($category->validate() && $form->isValid()) {
             $category->save();
-            $this->get('session')->getFlashBag()->add('notice', 'New category has been successfully added');
+            $this->get('session')->getFlashBag()->add('success', 'New category has been successfully added');
             return $this->redirect($this->generateUrl('nurolopher_blog_category_index'));
         }
         return $this->render('NurolopherBlogBundle:Category:new.html.twig', array('form' => $form->createView()));
@@ -46,6 +46,9 @@ class CategoryController extends Controller
         $form->handleRequest($this->get('request'));
         if ($category->validate() && $form->isValid()) {
             $category->save();
+
+            $this->get('session')->getFlashBag()->set('success', 'Category has been successfully edited');
+            $this->redirect($this->generateUrl('nurolopher_blog_category_index'));
         }
         return $this->render('@NurolopherBlog/Category/new.html.twig', array('form' => $form->createView()));
     }
@@ -56,14 +59,14 @@ class CategoryController extends Controller
             throw new AccessDeniedException();
         }
         $category = CategoryQuery::create()->findPk($id);
-        if(is_object($category)){
-            try{
+        if (is_object($category)) {
+            try {
                 $category->delete();
-            }catch ( \PropelException $e){
-                $this->get('session')->getFlashBag()->set('notice','Please delete related posts first');
+            } catch (\PropelException $e) {
+                $this->get('session')->getFlashBag()->set('error', 'Please delete related posts first');
             }
-            if($category->isDeleted()){
-                $this->get('session')->getFlashBag()->set('success','Category has beeen successfully deleted');
+            if ($category->isDeleted()) {
+                $this->get('session')->getFlashBag()->set('success', 'Category has beeen successfully deleted');
             }
         }
         return $this->redirect($this->generateUrl('nurolopher_blog_category_index'));

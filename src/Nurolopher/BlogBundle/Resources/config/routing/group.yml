@@ -11,3 +11,9 @@ nurolopher_blog_group_edit:
     defaults: { _controller:  NurolopherBlogBundle:Group:edit }
     requirements:
       id: \d+
+
+nurolopher_blog_group_delete:
+    path:   /{id}/delete
+    defaults: { _controller:  NurolopherBlogBundle:Group:delete }
+    requirements:
+      id: \d+

@@ -1,25 +1,25 @@
 {% extends "::base.html.twig" %}
 {% block body %}
-    {{ form(form) }}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('nurolopher_blog_post_new') }}">Create new post</a>
-    {% endif %}
-    <ul>
-        {% for post in posts %}
-            <li>
+    <div class="row">
+        <div class="col-md-3">
+            {#{{ form(form) }}#}
+
+        </div>
+        <div class="col-md-9">
+            {% for post in posts %}
                 {{ include('@NurolopherBlog/Post/post_content.html.twig') }}
-            </li>
-        {% endfor %}
-    </ul>
-    {% if not posts.isFirstPage %}
-        <a href="?page={{ posts.firstPage }}">First page</a>
-    {% endif %}
-    {% for page in posts.links %}
-        {#{% if page != posts.lastIndex or page != posts.firstPage%}#}
-        <a href="?page={{ page }}">{{ page }}</a>
-        {#{% endif %}#}
-    {% endfor %}
-    {% if not posts.isLastPage %}
-        <a href="?page={{ posts.lastPage() }}">Last page</a>
-    {% endif %}
+            {% endfor %}
+            {% if not posts.isFirstPage %}
+                <a href="?page={{ posts.firstPage }}">First page</a>
+            {% endif %}
+            {% for page in posts.links %}
+                {% if page != posts.lastIndex %}
+                    <a href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if not posts.isLastPage %}
+                <a href="?page={{ posts.lastPage() }}">Last page</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

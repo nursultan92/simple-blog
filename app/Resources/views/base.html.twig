@@ -1,26 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/css/bootstrap-theme.min.css') }}">
+    {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 {% block header %}
-    <ul>
-        <li><a href="{{ path('nurolopher_blog_homepage') }}">Home</a></li>
-        {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="{{ path('nurolopher_blog_category_index') }}">Categories</a></li>
-            <li><a href="{{ path('nurolopher_blog_user_index') }}">Users</a></li>
-            <li><a href="{{ path('nurolopher_blog_post_new') }}">New post</a></li>
-        {% endif %}
-    </ul>
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="{{ path('nurolopher_blog_homepage') }}" class="navbar-brand">Home</a>
+            </div>
+            <ul class="nav navbar-nav">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('nurolopher_blog_category_index') }}">Categories</a></li>
+                    <li><a href="{{ path('nurolopher_blog_user_index') }}">Users</a></li>
+                    <li><a href="{{ path('nurolopher_blog_group_index') }}">Groups</a></li>
+                    <li><a href="{{ path('nurolopher_blog_post_new') }}">New post</a></li>
+                    <li><a href="{{ path('nurolopher_blog_comment_index') }}">All comments</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.user %}
+                    <li><a href="{{ path('nurolopher_blog_user_show',{id: app.user.id}) }}">{{ app.user.firstname }}</a>
+                    </li>
+                    <li><a href="{{ path('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ path('login') }}">Login</a></li>
+                    <li><a href="{{ path('nurolopher_blog_user_signup') }}">Signup</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
-{% for flashMessage in app.session.flashbag.get('notice') %}
-    {{ flashMessage }}
-{% endfor %}
-{% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
+<div class="container">
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <p class="bg-success">{{ flashMessage }}</p>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <p class="bg-danger">{{ flashMessage }}</p>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</div>
+{% block javascripts %}
+    <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+{% endblock %}
 </body>
 </html>

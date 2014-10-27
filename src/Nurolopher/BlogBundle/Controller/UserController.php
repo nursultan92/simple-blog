@@ -9,6 +9,7 @@
 namespace Nurolopher\BlogBundle\Controller;
 
 
+use Nurolopher\BlogBundle\Form\Type\UserSignupType;
 use Nurolopher\BlogBundle\Form\Type\UserType;
 use Nurolopher\BlogBundle\Model\GroupQuery;
 use Nurolopher\BlogBundle\Model\PostQuery;
@@ -16,6 +17,7 @@ use Nurolopher\BlogBundle\Model\User;
 use Nurolopher\BlogBundle\Model\UserQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class UserController extends Controller
@@ -87,7 +89,7 @@ class UserController extends Controller
         $user = UserQuery::create()->findPk($id);
         $form = $this->createForm(new UserType(), $user);
         if (!$user) {
-            throw new \PropelException();
+            throw new NotFoundHttpException();
         }
         return $this->render('NurolopherBlogBundle:User:edit.html.twig', array('form' => $form->createView()));
     }
@@ -99,15 +101,34 @@ class UserController extends Controller
             try {
                 $user->delete();
             } catch (\PropelException $e) {
-                throw new \PropelException();
+                $this->get('session')->getFlashBag()->set('error', 'Could not delete');
+                return $this->redirect($this->generateUrl('nurolopher_blog_user_index'));
             }
+            $this->get('session')->getFlashBag()->set('success', 'User has been successfully deleted');
+        } else {
+            throw new NotFoundHttpException();
         }
 
         return $this->redirect($this->generateUrl('nurolopher_blog_user_index'));
     }
 
-    public function registerAction()
+    public function signupAction(Request $request)
     {
-        return $this->render('@NurolopherBlog/Post/register.html.twig', array(''));
+        $user = new User();
+        $form = $this->createForm(new UserSignupType(), $user);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $group = GroupQuery::create()->findOneByRoles(array('ROLE_USER'));
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+
+            $user->setPassword($password);
+            $user->setGroup($group);
+            $user->save();
+            $this->get('session')->set('success', 'You have been succussfully signed up. You can login now');
+            return $this->redirect($this->generateUrl('login'));
+        }
+        return $this->render('@NurolopherBlog/Post/register.html.twig', array('form' => $form->createView()));
     }
 } 

@@ -10,6 +10,7 @@ use Nurolopher\BlogBundle\Model\PostQuery;
 use Nurolopher\BlogBundle\Model\UserQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostController extends Controller
@@ -37,7 +38,7 @@ class PostController extends Controller
         if ($post->validate()) {
             $post->setUser($this->getUser());
             $post->save();
-            $this->get('session')->getFlashBag()->add('notice', 'New Post has been successfully added');
+            $this->get('session')->getFlashBag()->add('success', 'New Post has been successfully added');
             return $this->redirect($this->generateUrl('nurolopher_blog_post_index'));
         }
         return $this->render('NurolopherBlogBundle:Post:new.html.twig', array(
@@ -49,17 +50,23 @@ class PostController extends Controller
     {
         $post = PostQuery::create()->findPk($id);
         if (!$post) {
-            throw new \PropelException();
+            throw new NotFoundHttpException();
         }
         return $this->render('NurolopherBlogBundle:Post:show.html.twig', array('post' => $post));
     }
 
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $post = PostQuery::create()->findPk($id);
         $form = $this->createForm(new PostType(), $post);
         if (!$post) {
-            throw new \PropelException();
+            throw new NotFoundHttpException();
+        }
+        $form->handleRequest($request);
+        if($form->isValid()){
+            $post->save();
+            $this->get('session','Post has been successfully updated');
+            $this->redirect($this->generateUrl('nurolopher_blog_post_show',array('id'=>$id)));
         }
         return $this->render('NurolopherBlogBundle:Post:edit.html.twig', array('form' => $form->createView()));
     }
@@ -71,7 +78,13 @@ class PostController extends Controller
         }
         $post = PostQuery::create()->findPk($id);
         if ($post) {
-            $post->delete();
+            try{
+                $post->delete();
+            }catch (\PropelException $e){
+                $this->get('session')->getFlashBag()->set('error','Could not delete post');
+            }
+        }else{
+            throw new NotFoundHttpException();
         }
         return $this->redirect($this->generateUrl('nurolopher_blog_post_index'));
     }

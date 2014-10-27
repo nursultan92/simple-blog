@@ -1,6 +1,25 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-{{ user.email }}
-{{ user.firstname }}
-{{ user.lastname }}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>{{ user.email }}</td>
+            <td>{{ user.firstname }}</td>
+            <td>{{ user.lastname }}</td>
+
+            {#Extra security#}
+            {% if is_granted('ROLE_ADMIN') %}
+                <td><a href="{{ path('nurolopher_blog_user_edit',{id:user.id}) }}">Edit</a></td>
+                <td><a href="{{ path('nurolopher_blog_user_delete',{id:user.id}) }}">Delete</a></td>
+            {% endif %}</tr>
+    </table>
+
 {% endblock %}

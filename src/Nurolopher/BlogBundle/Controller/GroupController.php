@@ -14,6 +14,7 @@ use Nurolopher\BlogBundle\Model\Group;
 use Nurolopher\BlogBundle\Model\GroupQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GroupController extends Controller
 {
@@ -30,7 +31,7 @@ class GroupController extends Controller
         $form->handleRequest($request);
         if ($group->validate() && $form->isValid()) {
             $group->save();
-            $this->get('session')->getFlashBag()->add('notice','New group has been successfully created');
+            $this->get('session')->getFlashBag()->add('success', 'New group has been successfully created');
             return $this->redirect($this->generateUrl('nurolopher_blog_group_index'));
         }
         return $this->render('NurolopherBlogBundle:Group:new.html.twig', array('form' => $form->createView()));
@@ -39,11 +40,25 @@ class GroupController extends Controller
     public function editAction($id)
     {
         $group = GroupQuery::create()->findPk($id);
-        if(!$group){
-            throw new \PropelException();
+        if (!$group) {
+            throw new NotFoundHttpException();
         }
-        $form = $this->createForm(new GroupType(),$group);
+        $form = $this->createForm(new GroupType(), $group);
         $form->handleRequest($this->get('request'));
-        return $this->render('NurolopherBlogBundle:Group:edit.html.twig',array('form'=>$form->createView()));
+        return $this->render('NurolopherBlogBundle:Group:edit.html.twig', array('form' => $form->createView()));
+    }
+
+    public function deleteAction($id)
+    {
+        $group = GroupQuery::create()->findPk($id);
+        if (!$group) {
+            throw new NotFoundHttpException();
+        }
+        try {
+            $group->delete();
+        } catch (\PropelException $e) {
+            $this->get('session')->getFlashBag()->set('error', 'Could not delete');
+        }
+        return $this->redirect($this->generateUrl('nurolopher_blog_group_index'));
     }
 } 

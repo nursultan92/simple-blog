@@ -28,7 +28,10 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    form:
+        resources:
+        - form_div_layout.html.twig
+        - 'NurolopherBlogBundle:Form:form_div_layout.html.twig'
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"

@@ -1,14 +1,26 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <ul>
+    <a href="{{ path('nurolopher_blog_group_new') }}" class="btn btn-primary pull-right">Create new</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Roles</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+        </thead>
         {% for group in groups %}
-            <li>
-                <a href="{{ path('nurolopher_blog_group_edit',{'id': group.id}) }}">{{ group.name }}</a>
-                {{ group.roles|join(" ") }}
-                <a href="{{ path('nurolopher_blog_group_edit',{'id':group.id}) }}">Edit</a>
-            </li>
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ group.name }}</td>
+                <td>{{ group.roles|join(" ") }}</td>
+                <td><a href="{{ path('nurolopher_blog_group_edit',{'id':group.id}) }}">Edit</a></td>
+                <td><a href="{{ path('nurolopher_blog_group_delete',{id: group.id}) }}">Delete</a> </td>
+            </tr>
 
         {% endfor %}
-    </ul>
+    </table>
 
 {% endblock %}

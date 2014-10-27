@@ -21,7 +21,7 @@ class FilterPostType extends AbstractType {
             'multiple'=>false,
             'expanded'=>false
         ))
-        ->add('submit','submit');
+        ->add('submit','submit',array('attr'=>array('class'=>'btn btn-primary')));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

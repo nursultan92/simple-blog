@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Body</th>
+            <th>User email</th>
+            <th>Post Title</th>
+            <th>Created at</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ comment.body }}</td>
+                <td><a href="{{ path('nurolopher_blog_user_show',{id:comment.user.id}) }}">{{ comment.user.email }}</a> </td>
+                <td>
+                    <a href="{{ path('nurolopher_blog_post_show',{id:comment.post.id}) }}">{{ comment.post.title|truncate }}</a>
+                </td>
+                <td>{{ comment.createdAt|date('D m Y') }}</td>
+                <td><a href="{{ path('nurolopher_blog_comment_edit',{id:comment.id}) }}">Edit</a></td>
+                <td><a href="{{ path('nurolopher_blog_comment_delete',{id:comment.id}) }}"
+                       class="text-danger">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

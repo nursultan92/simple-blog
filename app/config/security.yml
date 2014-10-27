@@ -14,11 +14,16 @@ security:
             form_login:
               login_path: login
               check_path:  login_check
+            logout:
+              path: /logout
+              target: /
     access_control:
       - { path: ^/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/users/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/users, roles: ROLE_ADMIN }
       - { path: ^/groups, roles: ROLE_ADMIN }
       - { path: ^/categories, roles: ROLE_ADMIN }
+      - { path: ^/comments/*, roles: ROLE_ADMIN }
     encoders:
         Nurolopher\BlogBundle\Model\User:
           algorithm:  sha512

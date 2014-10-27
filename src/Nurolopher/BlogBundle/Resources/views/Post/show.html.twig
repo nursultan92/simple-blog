@@ -1,8 +1,25 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-<article>
-    <h5>{{ post.title }}</h5>
-    <p>{{ post.body }}</p>
-    <i>{{ post.createdAt|date('M d Y') }}</i>
-</article>
+    <article>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.body }}</p>
+        <time class="text-muted">{{ post.createdAt|date('M d Y') }}</time>
+    </article>
+    <div>
+        <h4>Comments</h4>
+
+        <div>
+            {% for comment in post.comments %}
+                {{ include('@NurolopherBlog/Post/comment_content.html.twig') }}
+                <hr/>
+            {% endfor %}
+        </div>
+        {% if app.user %}
+            {{ render(controller('NurolopherBlogBundle:Comment:new',{'id': post.id})) }}
+        {% else %}
+            <p>Pleas login or sign up to leave comment</p>
+            <a href="{{ path('login') }}">Login</a> or
+            <a href="{{ path('nurolopher_blog_user_signup') }}">Sign up</a>
+        {% endif %}
+    </div>
 {% endblock %}
