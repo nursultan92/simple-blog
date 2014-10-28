@@ -1,0 +1,160 @@
+Nurolopher\BlogBundle\Model\Category:
+    Category_1:
+        title: Technology
+    Category_2:
+        title: Geek
+    Category_3:
+        title: Science
+Nurolopher\BlogBundle\Model\Group:
+    Group_1:
+        name: Administrator
+        roles: [ROLE_ADMIN]
+    Group_2:
+        name: Moderator
+        roles: [ROLE_MODERATOR]
+    Group_3:
+        name: User
+        roles: [ROLE_USER]
+Nurolopher\BlogBundle\Model\User:
+    User_1:
+        email: admin@example.com
+        salt: otk3ipcacv4g48s80swg88ws4skw080
+        password: h+eMiv7mcyKhXW3gNinmB3dyjVP1B/p1NyjFJM1Lut/BWH5UPgBTu8vAmhVitYkap5DiyWdwKt9jXSXxDFSUrg==
+        firstname: Administrator
+        groups_id: Group_1
+    User_2:
+        email: user@example.com
+        salt: ciaix7chdfcw04soocssgog4ogw8sso
+        password: BTKiRuAJIbxEQxOnGcdLJ/3gjPJyghiskhHJ6dOrDf6WkKLQKlg90+iErKuWXhk0L6RdB3a/d/sBQMCnZwFfSw==
+        firstname: User
+        lastname: User
+        groups_id: Group_3
+Nurolopher\BlogBundle\Model\Post:
+    Post_1:
+        title: 'Verizon Droid Turbo boasts a ''monster'' battery that can last 2 days'
+        body: "The Droid Turbo joins the elite class of top-tier of phones that boast a Quad HD display, with 2,560 x 1,440 pixels. This marks the first Quad HD phone from Motorola. The screen measures 5.2 inches.\r\n\r\nTo push all those pixels, the Droid Turbo packs a 2.7GHz Qualcomm Snapdragon 805 processor. A Verizon exclusive, the phone is compatible with the carrier's high-speed XLTE network. It runs Android 4.4 \"KitKat,\" and Verizon says it's guaranteed to get the version 5.0 \"Lollipop\" update.\r\n\r\nThe camera is a 21-megapixel imager. It can capture 4K-quality video, and you can activate the camera with just a flick of the wrist. The front-facing camera is 2 megapixels, able to record 1080p video.\r\n\r\nLike previous Droids, the Turbo has a kevlar backside, which makes it resistant to damage. It's also \"spill\" resistant, but it's not rated to withstand full immersion in water."
+        user_id: User_1
+        created_at: '2014-10-28 20:48:31'
+        updated_at: '2014-10-28 20:48:31'
+    Post_2:
+        title: 'Tim Cook talks Apple Pay pushback, Alibaba deal, death of iPod Classic'
+        body: "As for the fact that CVS and Rite Aid just blocked Apple Pay? Cook dismissed that as business maneuvering. \"It's a skirmish,\" he said. \"Over the long arc of time, retailers will step back and say, no other system is more secure.\" He added pointedly: \"you're only relevant as a retailer if your customers love you.\" (CVS and Rite Aid are working on their own system, to be launched in 2015 and called Current C.)\r\n\r\n\"We’re not collecting your data,\" Cook added. \"We’re not Big Brother. There's no other mobile payment system where you can say it’s easier than the credit card.\" Indeed, Cook had to change his own credit cards twice last year because of various security issues, he revealed. \"It's a pain in the butt. You forget to change [the card] on one or two on websites, people don’t think you pay your bills any more.\"\r\n\r\nThat \"long arc of time\" was something Cook frequently invoked — such as when discussing iPhone sales, which he suggested would constitute roughly 50% of the business for the foreseeable future. Also happening in the long arc of time is a possible relationship between Apple Pay and Alibaba's AliPay, a popular payment system in China.\r\n\r\n\"We're going to talk about getting married later this week,\" Cook said of Alibaba CEO Jack Ma, who'd said much the same thing during his preceding talk. \"We love to partner with people who are wicked smart.\""
+        user_id: User_1
+        created_at: '2014-10-28 20:49:25'
+        updated_at: '2014-10-28 20:49:25'
+    Post_3:
+        title: 'This is not your average light bulb'
+        body: "The new Cree LED bulb costs $7.97, which is $2 less than the Cree old bulbs, and looks exactly like a 60 watt bulb (a 40W option is also available). It has the same shape, from the cap (the part you screw into the lighting fixture) to the bulb. In part, this involves Cree dropping the external heat sync; as noted above, Cree’s new lighting technology makes the bulb run cooler. That said, LEDs still generate heat that still must be managed somehow.\r\n\r\nCree developed a solution called 4Flow™ Filament Design, which manages heat in a way that would be impossible with incandescents, requiring a vacuum-sealed bulb. Cree's light bulb has four sets of heat ventilation ports on its top and bottom, which work convention-style: drawing in cooler air through the bottom, running it over the LEDs and expelling the hotter air through the top."
+        user_id: User_1
+        created_at: '2014-10-28 20:50:29'
+        updated_at: '2014-10-28 20:50:29'
+    Post_4:
+        title: '7 things we learned from Daniel Radcliffe''s Reddit AMA'
+        body: "There's — in the 3rd film — there's a shot in the great hall of all the kids sleeping in the great hall, and the camera starts very very wide, and comes in so that it's an inch from my face, a very long developing set, yeah, and Alan Rickman decided he would plant one of those fart machines in my, uh, sleeping bag, and they waited until like -the camera had come in for this huge DRAMATIC developing shot, and then unleashed this tremendous noise in the great hall.\r\n\r\nI immediately thought: \"This is one of the other kids fucking around, and we were going to get in trouble.\"\r\n\r\nBut as it turns out, it was one of the members of Britain's acting royalty.\"="
+        user_id: User_1
+        created_at: '2014-10-28 20:51:12'
+        updated_at: '2014-10-28 20:51:12'
+    Post_5:
+        title: 'The Allman Brothers finish rock''s most tragic endurance marathon'
+        body: "LOS ANGELES — \"Someday baby, ain't no trouble for me any more,\" Gregg Allman sang on the very first song he ever attempted with his older brother Duane's handpicked group of musical outlaws, just a few nights before attempting a bold jailbreak from the recording industry that they decided right then and there to call The Allman Brothers Band.\r\n\r\nMore than 45 years later, after decades of turmoil and addiction and death but also multiple trips to the top of the rock 'n' roll mountain, the Allmans will take the stage Tuesday night at their Beacon Theater \"second home\" in New York City, where they've done an annual monthlong residency for the past 20 years. There, they will blaze through a series of sets that, despite many rebirths over the decades, really feel like their last."
+        user_id: User_1
+        created_at: '2014-10-28 20:52:06'
+        updated_at: '2014-10-28 20:52:06'
+    Post_6:
+        title: 'On the run from ISIS: Stories from Iraq'
+        body: "\"We had only one choice: face death or leave,\" says Sister Luma, a nun of the Dominican order who left her hometown of Qaraqosh, Iraq’s largest Christian town, in August — one of roughly 50,000 Christians who fled ISIS's advance on the ancient town.\r\n\r\nShortly before midnight, she and 35 other nuns packed into a few cars and drove to a convent in Ainkawa, a town in the Kurdish region of Iraq, bringing with them a 10-year-old girl from the church’s orphanage.\r\n\r\nThis isn’t the first time Luma has been displaced. In June, she fled ISIS’s advance on nearby Mosul.\r\n\r\nA graduate from the University of Notre Dame, where she received her Ph.D. in Biblical Studies, and from Chicago’s Catholic Theological Union –- where she discovered her love for brownies and the Field Museum of Natural History –- Luma left behind her beloved library along with the church’s treasured archives, some dating back to the 11th century.\r\n\r\nLuma has sought solace in the Book of Micah. \"People will use hammers to turn their swords into ploughs,\" she reads from her copy of the Bible. \"They will turn their spears into tools to cut plants...Everyone will sit under his own vine and his own fig tree, and nobody will make them afraid any longer.\""
+        user_id: User_1
+        created_at: '2014-10-28 20:52:46'
+        updated_at: '2014-10-28 20:52:46'
+    Post_7:
+        title: 'The Graduate'
+        body: "The proudest moment in 28-year-old Ehab’s life came while giving a presentation on Shakespeare to his English class at the University of Mosul.\r\n\r\nThe only college graduate in his family, Ehab had saved for years working odd jobs to pay for his studies.\r\n\r\n\"Hamlet is amazing,\" he says. \"Tragedy, family and revenge — it’s a familiar story for Arabs,\" he adds, with a laugh, sitting in his tent at the Baharka refugee camp in Erbil.\r\n\r\nIn June, ISIS fighters took huge swaths of territory in the western Anbar region where Ehab lived and so he fled to Mosul in northern Iraq. Soon after, however, ISIS took Mosul as well and the family fled to Erbil in the Kurdistan region.\r\n\r\nFor Ehab, an Iraqi of Palestinian origin, displacement has been a strong plot line in his family’s history. His family, who originally hail from Haifa, has been in Iraq since the founding of Israel in 1948.\r\n\r\n\"This is our fate,\" he says, quoting the melancholy Dane: \"To be or not to be?\"\r\n\r\nLauren Bohn is a multimedia journalist based in Istanbul and a columnist for Foreign Policy Magazine. She's the co-founder of Foreign Policy Interrupted, an initiative dedicated to amplifying female voices in foreign policy."
+        user_id: User_1
+        created_at: '2014-10-28 20:54:33'
+        updated_at: '2014-10-28 20:54:33'
+    Post_8:
+        title: 'Umbrella City: Thousands still camp in Hong Kong''s streets'
+        body: "In light of this, it is worthwhile explaining the data behind these assurances, which the WHO and CDC haven’t done, to make clear why we are so confident that people without symptoms can’t give you Ebola.\r\n\r\nThe Kikwit outbreak\r\n\r\nThere are five different known types of ebolavirus (the genus), including Zaire ebolavirus, which is behind the 2014 outbreak in West Africa. The best epidemiological data on Ebola virus (the disease) transmission comes from the 1995 outbreak in Kikwit, in the Democratic Republic of the Congo, which was caused by the same species as the current epidemic.\r\n\r\nThe Kikwit outbreak marked the first appearance of EBOV since its initial discovery in 1976, and a team from the CDC and WHO extensively studied what interactions, and when, led to EBOV transmission. The team followed 173 household members of 27 active cases until the end of the outbreak. They were able to identify who became sick and which interactions between sick people and their family members during the incubation period, early illness and late illness were associated with transmission."
+        user_id: User_1
+        created_at: '2014-10-28 20:55:58'
+        updated_at: '2014-10-28 20:55:58'
+Nurolopher\BlogBundle\Model\Comment:
+    Comment_1:
+        body: 'Re the iPod Classic, I wonder which parts were unavailable. Is this really about the decline of the 1.8" hard disk? And what are the alternatives, because I can''t find a PMP with >= 160Gb?'
+        post_id: Post_2
+        user_id: User_1
+        created_at: '2014-10-28 20:49:44'
+        updated_at: '2014-10-28 20:49:44'
+    Comment_2:
+        body: "This is the vacuum left by the USA as they cut and run from the world stage… Yes this is the Barack Obama Foreign Policy!\r\nObama has sat on his hands while ISIS slowly took over the Middle East. Obama picked a stupid fight with Putin. Obama has ruined our country"
+        post_id: Post_6
+        user_id: User_1
+        created_at: '2014-10-28 20:53:21'
+        updated_at: '2014-10-28 20:53:21'
+    Comment_3:
+        body: 'Obama has crippled the US economy. Everybody I know is either out of work or under-employed. I haven’t had a raise in years (despite all my expenses increasing from year to year). My health insurance is now up to $400/month. Before the government touched it, it was $170/month! My'
+        post_id: Post_6
+        user_id: User_1
+        created_at: '2014-10-28 20:53:36'
+        updated_at: '2014-10-28 20:53:36'
+    Comment_4:
+        body: 'Fear has kept people away from school and work, despite reassurances from the World Health Organization and the American Centers for Disease Control and Prevention that someone with Ebola becomes contagious only once they develop symptom'
+        post_id: Post_8
+        user_id: User_1
+        created_at: '2014-10-28 20:56:18'
+        updated_at: '2014-10-28 20:56:18'
+    Comment_5:
+        body: 'In light of this, it is worthwhile explaining the data behind these assurances, which the WHO and CDC haven’t done, to make clear why we are so confident that people without symptoms can’t give you Ebola.'
+        post_id: Post_8
+        user_id: User_2
+        created_at: '2014-10-28 20:57:46'
+        updated_at: '2014-10-28 20:57:46'
+    Comment_6:
+        body: 'There are five different known types of ebolavirus (the genus), including Zaire ebolavirus, which is behind the 2014 outbreak in West Africa. The best epidemiological data on Ebola virus (the disease) transmission comes from the 1995 outbreak in Kikwit, in the Democratic Republic of the Congo, which was caused by the same species as the current epidemic.'
+        post_id: Post_8
+        user_id: User_2
+        created_at: '2014-10-28 20:58:00'
+        updated_at: '2014-10-28 20:58:00'
+    Comment_7:
+        body: 'Right now if I leave the password fields blank when editing a user, symfony2 complains that a password must be entered, and of course I want this functionality when I register new users, but when I edit them, I''d like for the form to just ignore the password boxes if they aren''t filled out.'
+        post_id: Post_5
+        user_id: User_2
+        created_at: '2014-10-28 21:32:02'
+        updated_at: '2014-10-28 21:32:02'
+Nurolopher\BlogBundle\Model\PostCategory:
+    PostCategory_1_1:
+        post_id: Post_1
+        category_id: Category_1
+    PostCategory_2_1:
+        post_id: Post_2
+        category_id: Category_1
+    PostCategory_3_1:
+        post_id: Post_3
+        category_id: Category_1
+    PostCategory_8_1:
+        post_id: Post_8
+        category_id: Category_1
+    PostCategory_3_2:
+        post_id: Post_3
+        category_id: Category_2
+    PostCategory_6_2:
+        post_id: Post_6
+        category_id: Category_2
+    PostCategory_7_2:
+        post_id: Post_7
+        category_id: Category_2
+    PostCategory_8_2:
+        post_id: Post_8
+        category_id: Category_2
+    PostCategory_2_3:
+        post_id: Post_2
+        category_id: Category_3
+    PostCategory_3_3:
+        post_id: Post_3
+        category_id: Category_3
+    PostCategory_4_3:
+        post_id: Post_4
+        category_id: Category_3
+    PostCategory_5_3:
+        post_id: Post_5
+        category_id: Category_3

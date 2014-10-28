@@ -25,7 +25,7 @@
                                     &laquo;
                                 {% elseif page == posts.previousPage and posts.previousPage != posts.firstPage %}
                                     <
-                                {% elseif page== posts.nextPage and posts.nextPage != posts.lastPage %}
+                                {% elseif page== posts.nextPage and posts.nextPage != posts.lastPage and page-1 != posts.firstPage %}
                                     >
                                 {% elseif page == posts.lastPage %}
                                     &raquo;

@@ -81,10 +81,10 @@ abstract class BaseUser extends BaseObject implements Persistent
     protected $lastname;
 
     /**
-     * The value for the group_id field.
+     * The value for the groups_id field.
      * @var        int
      */
-    protected $group_id;
+    protected $groups_id;
 
     /**
      * @var        Group
@@ -202,14 +202,14 @@ abstract class BaseUser extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [group_id] column value.
+     * Get the [groups_id] column value.
      *
      * @return int
      */
-    public function getGroupId()
+    public function getGroupsId()
     {
 
-        return $this->group_id;
+        return $this->groups_id;
     }
 
     /**
@@ -339,20 +339,20 @@ abstract class BaseUser extends BaseObject implements Persistent
     } // setLastname()
 
     /**
-     * Set the value of [group_id] column.
+     * Set the value of [groups_id] column.
      *
      * @param  int $v new value
      * @return User The current object (for fluent API support)
      */
-    public function setGroupId($v)
+    public function setGroupsId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->group_id !== $v) {
-            $this->group_id = $v;
-            $this->modifiedColumns[] = UserPeer::GROUP_ID;
+        if ($this->groups_id !== $v) {
+            $this->groups_id = $v;
+            $this->modifiedColumns[] = UserPeer::GROUPS_ID;
         }
 
         if ($this->aGroup !== null && $this->aGroup->getId() !== $v) {
@@ -361,7 +361,7 @@ abstract class BaseUser extends BaseObject implements Persistent
 
 
         return $this;
-    } // setGroupId()
+    } // setGroupsId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -401,7 +401,7 @@ abstract class BaseUser extends BaseObject implements Persistent
             $this->password = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->firstname = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->lastname = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->group_id = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
+            $this->groups_id = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -434,7 +434,7 @@ abstract class BaseUser extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aGroup !== null && $this->group_id !== $this->aGroup->getId()) {
+        if ($this->aGroup !== null && $this->groups_id !== $this->aGroup->getId()) {
             $this->aGroup = null;
         }
     } // ensureConsistency
@@ -695,8 +695,8 @@ abstract class BaseUser extends BaseObject implements Persistent
         if ($this->isColumnModified(UserPeer::LASTNAME)) {
             $modifiedColumns[':p' . $index++]  = '`lastname`';
         }
-        if ($this->isColumnModified(UserPeer::GROUP_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`group_id`';
+        if ($this->isColumnModified(UserPeer::GROUPS_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`groups_id`';
         }
 
         $sql = sprintf(
@@ -727,8 +727,8 @@ abstract class BaseUser extends BaseObject implements Persistent
                     case '`lastname`':
                         $stmt->bindValue($identifier, $this->lastname, PDO::PARAM_STR);
                         break;
-                    case '`group_id`':
-                        $stmt->bindValue($identifier, $this->group_id, PDO::PARAM_INT);
+                    case '`groups_id`':
+                        $stmt->bindValue($identifier, $this->groups_id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -911,7 +911,7 @@ abstract class BaseUser extends BaseObject implements Persistent
                 return $this->getLastname();
                 break;
             case 6:
-                return $this->getGroupId();
+                return $this->getGroupsId();
                 break;
             default:
                 return null;
@@ -948,7 +948,7 @@ abstract class BaseUser extends BaseObject implements Persistent
             $keys[3] => $this->getPassword(),
             $keys[4] => $this->getFirstname(),
             $keys[5] => $this->getLastname(),
-            $keys[6] => $this->getGroupId(),
+            $keys[6] => $this->getGroupsId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1018,7 +1018,7 @@ abstract class BaseUser extends BaseObject implements Persistent
                 $this->setLastname($value);
                 break;
             case 6:
-                $this->setGroupId($value);
+                $this->setGroupsId($value);
                 break;
         } // switch()
     }
@@ -1050,7 +1050,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         if (array_key_exists($keys[3], $arr)) $this->setPassword($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setFirstname($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setLastname($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setGroupId($arr[$keys[6]]);
+        if (array_key_exists($keys[6], $arr)) $this->setGroupsId($arr[$keys[6]]);
     }
 
     /**
@@ -1068,7 +1068,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
         if ($this->isColumnModified(UserPeer::FIRSTNAME)) $criteria->add(UserPeer::FIRSTNAME, $this->firstname);
         if ($this->isColumnModified(UserPeer::LASTNAME)) $criteria->add(UserPeer::LASTNAME, $this->lastname);
-        if ($this->isColumnModified(UserPeer::GROUP_ID)) $criteria->add(UserPeer::GROUP_ID, $this->group_id);
+        if ($this->isColumnModified(UserPeer::GROUPS_ID)) $criteria->add(UserPeer::GROUPS_ID, $this->groups_id);
 
         return $criteria;
     }
@@ -1137,7 +1137,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $copyObj->setPassword($this->getPassword());
         $copyObj->setFirstname($this->getFirstname());
         $copyObj->setLastname($this->getLastname());
-        $copyObj->setGroupId($this->getGroupId());
+        $copyObj->setGroupsId($this->getGroupsId());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1218,9 +1218,9 @@ abstract class BaseUser extends BaseObject implements Persistent
     public function setGroup(Group $v = null)
     {
         if ($v === null) {
-            $this->setGroupId(NULL);
+            $this->setGroupsId(NULL);
         } else {
-            $this->setGroupId($v->getId());
+            $this->setGroupsId($v->getId());
         }
 
         $this->aGroup = $v;
@@ -1246,8 +1246,8 @@ abstract class BaseUser extends BaseObject implements Persistent
      */
     public function getGroup(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aGroup === null && ($this->group_id !== null) && $doQuery) {
-            $this->aGroup = GroupQuery::create()->findPk($this->group_id, $con);
+        if ($this->aGroup === null && ($this->groups_id !== null) && $doQuery) {
+            $this->aGroup = GroupQuery::create()->findPk($this->groups_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
@@ -1765,7 +1765,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $this->password = null;
         $this->firstname = null;
         $this->lastname = null;
-        $this->group_id = null;
+        $this->groups_id = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

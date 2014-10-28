@@ -26,7 +26,7 @@ use Nurolopher\BlogBundle\Model\UserQuery;
  * @method UserQuery orderByPassword($order = Criteria::ASC) Order by the password column
  * @method UserQuery orderByFirstname($order = Criteria::ASC) Order by the firstname column
  * @method UserQuery orderByLastname($order = Criteria::ASC) Order by the lastname column
- * @method UserQuery orderByGroupId($order = Criteria::ASC) Order by the group_id column
+ * @method UserQuery orderByGroupsId($order = Criteria::ASC) Order by the groups_id column
  *
  * @method UserQuery groupById() Group by the id column
  * @method UserQuery groupByEmail() Group by the email column
@@ -34,7 +34,7 @@ use Nurolopher\BlogBundle\Model\UserQuery;
  * @method UserQuery groupByPassword() Group by the password column
  * @method UserQuery groupByFirstname() Group by the firstname column
  * @method UserQuery groupByLastname() Group by the lastname column
- * @method UserQuery groupByGroupId() Group by the group_id column
+ * @method UserQuery groupByGroupsId() Group by the groups_id column
  *
  * @method UserQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method UserQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -60,7 +60,7 @@ use Nurolopher\BlogBundle\Model\UserQuery;
  * @method User findOneByPassword(string $password) Return the first User filtered by the password column
  * @method User findOneByFirstname(string $firstname) Return the first User filtered by the firstname column
  * @method User findOneByLastname(string $lastname) Return the first User filtered by the lastname column
- * @method User findOneByGroupId(int $group_id) Return the first User filtered by the group_id column
+ * @method User findOneByGroupsId(int $groups_id) Return the first User filtered by the groups_id column
  *
  * @method array findById(int $id) Return User objects filtered by the id column
  * @method array findByEmail(string $email) Return User objects filtered by the email column
@@ -68,7 +68,7 @@ use Nurolopher\BlogBundle\Model\UserQuery;
  * @method array findByPassword(string $password) Return User objects filtered by the password column
  * @method array findByFirstname(string $firstname) Return User objects filtered by the firstname column
  * @method array findByLastname(string $lastname) Return User objects filtered by the lastname column
- * @method array findByGroupId(int $group_id) Return User objects filtered by the group_id column
+ * @method array findByGroupsId(int $groups_id) Return User objects filtered by the groups_id column
  */
 abstract class BaseUserQuery extends ModelCriteria
 {
@@ -174,7 +174,7 @@ abstract class BaseUserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `email`, `salt`, `password`, `firstname`, `lastname`, `group_id` FROM `user` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `email`, `salt`, `password`, `firstname`, `lastname`, `groups_id` FROM `user` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -451,19 +451,19 @@ abstract class BaseUserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the group_id column
+     * Filter the query on the groups_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByGroupId(1234); // WHERE group_id = 1234
-     * $query->filterByGroupId(array(12, 34)); // WHERE group_id IN (12, 34)
-     * $query->filterByGroupId(array('min' => 12)); // WHERE group_id >= 12
-     * $query->filterByGroupId(array('max' => 12)); // WHERE group_id <= 12
+     * $query->filterByGroupsId(1234); // WHERE groups_id = 1234
+     * $query->filterByGroupsId(array(12, 34)); // WHERE groups_id IN (12, 34)
+     * $query->filterByGroupsId(array('min' => 12)); // WHERE groups_id >= 12
+     * $query->filterByGroupsId(array('max' => 12)); // WHERE groups_id <= 12
      * </code>
      *
      * @see       filterByGroup()
      *
-     * @param     mixed $groupId The value to use as filter.
+     * @param     mixed $groupsId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -471,16 +471,16 @@ abstract class BaseUserQuery extends ModelCriteria
      *
      * @return UserQuery The current query, for fluid interface
      */
-    public function filterByGroupId($groupId = null, $comparison = null)
+    public function filterByGroupsId($groupsId = null, $comparison = null)
     {
-        if (is_array($groupId)) {
+        if (is_array($groupsId)) {
             $useMinMax = false;
-            if (isset($groupId['min'])) {
-                $this->addUsingAlias(UserPeer::GROUP_ID, $groupId['min'], Criteria::GREATER_EQUAL);
+            if (isset($groupsId['min'])) {
+                $this->addUsingAlias(UserPeer::GROUPS_ID, $groupsId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($groupId['max'])) {
-                $this->addUsingAlias(UserPeer::GROUP_ID, $groupId['max'], Criteria::LESS_EQUAL);
+            if (isset($groupsId['max'])) {
+                $this->addUsingAlias(UserPeer::GROUPS_ID, $groupsId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -491,7 +491,7 @@ abstract class BaseUserQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(UserPeer::GROUP_ID, $groupId, $comparison);
+        return $this->addUsingAlias(UserPeer::GROUPS_ID, $groupsId, $comparison);
     }
 
     /**
@@ -507,14 +507,14 @@ abstract class BaseUserQuery extends ModelCriteria
     {
         if ($group instanceof Group) {
             return $this
-                ->addUsingAlias(UserPeer::GROUP_ID, $group->getId(), $comparison);
+                ->addUsingAlias(UserPeer::GROUPS_ID, $group->getId(), $comparison);
         } elseif ($group instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(UserPeer::GROUP_ID, $group->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(UserPeer::GROUPS_ID, $group->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByGroup() only accepts arguments of type Group or PropelCollection');
         }

@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'group' table.
+ * This class defines the structure of the 'groups' table.
  *
  *
  *
@@ -36,7 +36,7 @@ class GroupTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('group');
+        $this->setName('groups');
         $this->setPhpName('Group');
         $this->setClassname('Nurolopher\\BlogBundle\\Model\\Group');
         $this->setPackage('src.Nurolopher.BlogBundle.Model');
@@ -54,7 +54,7 @@ class GroupTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('User', 'Nurolopher\\BlogBundle\\Model\\User', RelationMap::ONE_TO_MANY, array('id' => 'group_id', ), null, null, 'Users');
+        $this->addRelation('User', 'Nurolopher\\BlogBundle\\Model\\User', RelationMap::ONE_TO_MANY, array('id' => 'groups_id', ), null, null, 'Users');
     } // buildRelations()
 
 } // GroupTableMap

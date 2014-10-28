@@ -79,10 +79,10 @@
         <column name="password" type="VARCHAR" required="true"/>
         <column name="firstname" type="VARCHAR" size="64" required="true"/>
         <column name="lastname" type="VARCHAR" size="64" required="false"/>
-        <column name="group_id" type="INTEGER" required="true"/>
+        <column name="groups_id" type="INTEGER" required="true"/>
 
-        <foreign-key foreignTable="group" onDelete="RESTRICT">
-            <reference local="group_id" foreign="id"/>
+        <foreign-key foreignTable="groups" onDelete="RESTRICT">
+            <reference local="groups_id" foreign="id"/>
         </foreign-key>
         <validator column="email">
             <rule name="match"
@@ -91,7 +91,7 @@
             <rule name="unique"
                   message="Email already exists"/>
         </validator>
-        <validator column="group_id">
+        <validator column="groups_id">
             <rule name="required"/>
         </validator>
         <validator column="firstname">
@@ -106,7 +106,7 @@
             <parameter name="Charset" value="utf8"/>
         </vendor>
     </table>
-    <table name="group">
+    <table name="groups" phpName="Group">
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="name" type="VARCHAR" required="true"/>
         <column name="roles" type="array" required="true"/>

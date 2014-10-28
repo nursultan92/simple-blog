@@ -48,11 +48,11 @@ class UserTableMap extends TableMap
         $this->addColumn('password', 'Password', 'VARCHAR', true, 255, null);
         $this->addColumn('firstname', 'Firstname', 'VARCHAR', true, 64, null);
         $this->addColumn('lastname', 'Lastname', 'VARCHAR', false, 64, null);
-        $this->addForeignKey('group_id', 'GroupId', 'INTEGER', 'group', 'id', true, null, null);
+        $this->addForeignKey('groups_id', 'GroupsId', 'INTEGER', 'groups', 'id', true, null, null);
         // validators
         $this->addValidator('email', 'match', 'propel.validator.MatchValidator', '/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+$/', 'Please enter a valid email address');
         $this->addValidator('email', 'unique', 'propel.validator.UniqueValidator', '', 'Email already exists');
-        $this->addValidator('group_id', 'required', 'propel.validator.RequiredValidator', '', '');
+        $this->addValidator('groups_id', 'required', 'propel.validator.RequiredValidator', '', '');
         $this->addValidator('firstname', 'required', 'propel.validator.RequiredValidator', '', '');
         $this->addValidator('firstname', 'minLength', 'propel.validator.MinLengthValidator', '3', 'Firstname must be at least 3 characters');
     } // initialize()
@@ -62,7 +62,7 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Group', 'Nurolopher\\BlogBundle\\Model\\Group', RelationMap::MANY_TO_ONE, array('group_id' => 'id', ), null, null);
+        $this->addRelation('Group', 'Nurolopher\\BlogBundle\\Model\\Group', RelationMap::MANY_TO_ONE, array('groups_id' => 'id', ), null, null);
         $this->addRelation('Post', 'Nurolopher\\BlogBundle\\Model\\Post', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), 'CASCADE', null, 'Posts');
         $this->addRelation('Comment', 'Nurolopher\\BlogBundle\\Model\\Comment', RelationMap::ONE_TO_MANY, array('id' => 'user_id', ), 'CASCADE', null, 'Comments');
     } // buildRelations()

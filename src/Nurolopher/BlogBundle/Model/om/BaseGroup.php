@@ -529,7 +529,7 @@ abstract class BaseGroup extends BaseObject implements Persistent
         }
 
         $sql = sprintf(
-            'INSERT INTO `group` (%s) VALUES (%s)',
+            'INSERT INTO `groups` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );

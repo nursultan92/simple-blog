@@ -100,22 +100,22 @@ CREATE TABLE `user`
     `password` VARCHAR(255) NOT NULL,
     `firstname` VARCHAR(64) NOT NULL,
     `lastname` VARCHAR(64),
-    `group_id` INTEGER NOT NULL,
+    `groups_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `user_U_1` (`email`),
-    INDEX `user_FI_1` (`group_id`),
+    INDEX `user_FI_1` (`groups_id`),
     CONSTRAINT `user_FK_1`
-        FOREIGN KEY (`group_id`)
-        REFERENCES `group` (`id`)
+        FOREIGN KEY (`groups_id`)
+        REFERENCES `groups` (`id`)
 ) ENGINE=InnoDB CHARACTER SET='utf8';
 
 -- ---------------------------------------------------------------------
--- group
+-- groups
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `group`;
+DROP TABLE IF EXISTS `groups`;
 
-CREATE TABLE `group`
+CREATE TABLE `groups`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,

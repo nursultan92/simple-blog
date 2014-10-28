@@ -9,10 +9,11 @@
 namespace Nurolopher\BlogBundle\Controller;
 
 
+use Nurolopher\BlogBundle\Form\Type\UserAdminType;
+use Nurolopher\BlogBundle\Form\Type\UserEditType;
 use Nurolopher\BlogBundle\Form\Type\UserSignupType;
 use Nurolopher\BlogBundle\Form\Type\UserType;
 use Nurolopher\BlogBundle\Model\GroupQuery;
-use Nurolopher\BlogBundle\Model\PostQuery;
 use Nurolopher\BlogBundle\Model\User;
 use Nurolopher\BlogBundle\Model\UserQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -101,13 +102,27 @@ class UserController extends Controller
     {
 
         $user = UserQuery::create()->findPk($id);
-        $form = $this->createForm(new UserType(), $user);
         if (!$user) {
             throw new NotFoundHttpException();
         }
+        $originalPassword = $user->getPassword();
+        $formType = new UserAdminType();
+        if ($this->getUser() == $user && $this->get('security.context')->isGranted('ROLE_USER')) {
+            $formType = new UserEditType();
+        }
+        $form = $this->createForm($formType, $user);
         if ($this->get('security.context')->isGranted('ROLE_ADMIN') || (is_object($this->getUser()) && $this->getUser() == $user)) {
             $form->handleRequest($this->get('request'));
             if ($form->isValid()) {
+                if (is_null($user->getPassword())) {
+                    $user->setPassword($originalPassword);
+                } else {
+                    $factory = $this->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($user);
+                    $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+
+                    $user->setPassword($password);
+                }
                 $user->save();
                 $this->get('session')->getFlashBag()->set('success', 'User information has been successfully updated');
                 return $this->redirect($this->generateUrl('nurolopher_blog_user_show', array('id' => $user->getId())));

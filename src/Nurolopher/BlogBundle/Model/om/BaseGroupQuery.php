@@ -148,7 +148,7 @@ abstract class BaseGroupQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `name`, `roles` FROM `group` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `name`, `roles` FROM `groups` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -402,7 +402,7 @@ abstract class BaseGroupQuery extends ModelCriteria
     {
         if ($user instanceof User) {
             return $this
-                ->addUsingAlias(GroupPeer::ID, $user->getGroupId(), $comparison);
+                ->addUsingAlias(GroupPeer::ID, $user->getGroupsId(), $comparison);
         } elseif ($user instanceof PropelObjectCollection) {
             return $this
                 ->useUserQuery()

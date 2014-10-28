@@ -20,7 +20,7 @@ abstract class BaseGroupPeer
     const DATABASE_NAME = 'default';
 
     /** the table name for this class */
-    const TABLE_NAME = 'group';
+    const TABLE_NAME = 'groups';
 
     /** the related Propel class for this table */
     const OM_CLASS = 'Nurolopher\\BlogBundle\\Model\\Group';
@@ -38,13 +38,13 @@ abstract class BaseGroupPeer
     const NUM_HYDRATE_COLUMNS = 3;
 
     /** the column name for the id field */
-    const ID = 'group.id';
+    const ID = 'groups.id';
 
     /** the column name for the name field */
-    const NAME = 'group.name';
+    const NAME = 'groups.name';
 
     /** the column name for the roles field */
-    const ROLES = 'group.roles';
+    const ROLES = 'groups.roles';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -365,7 +365,7 @@ abstract class BaseGroupPeer
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to group
+     * Method to invalidate the instance pool of all tables related to groups
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -583,7 +583,7 @@ abstract class BaseGroupPeer
     }
 
     /**
-     * Deletes all rows from the group table.
+     * Deletes all rows from the groups table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).

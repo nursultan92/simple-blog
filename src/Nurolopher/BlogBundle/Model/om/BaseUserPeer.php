@@ -58,8 +58,8 @@ abstract class BaseUserPeer
     /** the column name for the lastname field */
     const LASTNAME = 'user.lastname';
 
-    /** the column name for the group_id field */
-    const GROUP_ID = 'user.group_id';
+    /** the column name for the groups_id field */
+    const GROUPS_ID = 'user.groups_id';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -80,11 +80,11 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[UserPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Email', 'Salt', 'Password', 'Firstname', 'Lastname', 'GroupId', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'email', 'salt', 'password', 'firstname', 'lastname', 'groupId', ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::EMAIL, UserPeer::SALT, UserPeer::PASSWORD, UserPeer::FIRSTNAME, UserPeer::LASTNAME, UserPeer::GROUP_ID, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'EMAIL', 'SALT', 'PASSWORD', 'FIRSTNAME', 'LASTNAME', 'GROUP_ID', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'email', 'salt', 'password', 'firstname', 'lastname', 'group_id', ),
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Email', 'Salt', 'Password', 'Firstname', 'Lastname', 'GroupsId', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'email', 'salt', 'password', 'firstname', 'lastname', 'groupsId', ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::EMAIL, UserPeer::SALT, UserPeer::PASSWORD, UserPeer::FIRSTNAME, UserPeer::LASTNAME, UserPeer::GROUPS_ID, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'EMAIL', 'SALT', 'PASSWORD', 'FIRSTNAME', 'LASTNAME', 'GROUPS_ID', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'email', 'salt', 'password', 'firstname', 'lastname', 'groups_id', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -95,11 +95,11 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Email' => 1, 'Salt' => 2, 'Password' => 3, 'Firstname' => 4, 'Lastname' => 5, 'GroupId' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'email' => 1, 'salt' => 2, 'password' => 3, 'firstname' => 4, 'lastname' => 5, 'groupId' => 6, ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::EMAIL => 1, UserPeer::SALT => 2, UserPeer::PASSWORD => 3, UserPeer::FIRSTNAME => 4, UserPeer::LASTNAME => 5, UserPeer::GROUP_ID => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'EMAIL' => 1, 'SALT' => 2, 'PASSWORD' => 3, 'FIRSTNAME' => 4, 'LASTNAME' => 5, 'GROUP_ID' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'email' => 1, 'salt' => 2, 'password' => 3, 'firstname' => 4, 'lastname' => 5, 'group_id' => 6, ),
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Email' => 1, 'Salt' => 2, 'Password' => 3, 'Firstname' => 4, 'Lastname' => 5, 'GroupsId' => 6, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'email' => 1, 'salt' => 2, 'password' => 3, 'firstname' => 4, 'lastname' => 5, 'groupsId' => 6, ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::EMAIL => 1, UserPeer::SALT => 2, UserPeer::PASSWORD => 3, UserPeer::FIRSTNAME => 4, UserPeer::LASTNAME => 5, UserPeer::GROUPS_ID => 6, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'EMAIL' => 1, 'SALT' => 2, 'PASSWORD' => 3, 'FIRSTNAME' => 4, 'LASTNAME' => 5, 'GROUPS_ID' => 6, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'email' => 1, 'salt' => 2, 'password' => 3, 'firstname' => 4, 'lastname' => 5, 'groups_id' => 6, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -180,7 +180,7 @@ abstract class BaseUserPeer
             $criteria->addSelectColumn(UserPeer::PASSWORD);
             $criteria->addSelectColumn(UserPeer::FIRSTNAME);
             $criteria->addSelectColumn(UserPeer::LASTNAME);
-            $criteria->addSelectColumn(UserPeer::GROUP_ID);
+            $criteria->addSelectColumn(UserPeer::GROUPS_ID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.email');
@@ -188,7 +188,7 @@ abstract class BaseUserPeer
             $criteria->addSelectColumn($alias . '.password');
             $criteria->addSelectColumn($alias . '.firstname');
             $criteria->addSelectColumn($alias . '.lastname');
-            $criteria->addSelectColumn($alias . '.group_id');
+            $criteria->addSelectColumn($alias . '.groups_id');
         }
     }
 
@@ -532,7 +532,7 @@ abstract class BaseUserPeer
             $con = Propel::getConnection(UserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(UserPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
+        $criteria->addJoin(UserPeer::GROUPS_ID, GroupPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -569,7 +569,7 @@ abstract class BaseUserPeer
         $startcol = UserPeer::NUM_HYDRATE_COLUMNS;
         GroupPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(UserPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
+        $criteria->addJoin(UserPeer::GROUPS_ID, GroupPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -650,7 +650,7 @@ abstract class BaseUserPeer
             $con = Propel::getConnection(UserPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(UserPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
+        $criteria->addJoin(UserPeer::GROUPS_ID, GroupPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -689,7 +689,7 @@ abstract class BaseUserPeer
         GroupPeer::addSelectColumns($criteria);
         $startcol3 = $startcol2 + GroupPeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(UserPeer::GROUP_ID, GroupPeer::ID, $join_behavior);
+        $criteria->addJoin(UserPeer::GROUPS_ID, GroupPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -1022,8 +1022,8 @@ abstract class BaseUserPeer
         if ($obj->isNew() || $obj->isColumnModified(UserPeer::EMAIL))
             $columns[UserPeer::EMAIL] = $obj->getEmail();
 
-        if ($obj->isNew() || $obj->isColumnModified(UserPeer::GROUP_ID))
-            $columns[UserPeer::GROUP_ID] = $obj->getGroupId();
+        if ($obj->isNew() || $obj->isColumnModified(UserPeer::GROUPS_ID))
+            $columns[UserPeer::GROUPS_ID] = $obj->getGroupsId();
 
         if ($obj->isNew() || $obj->isColumnModified(UserPeer::FIRSTNAME))
             $columns[UserPeer::FIRSTNAME] = $obj->getFirstname();

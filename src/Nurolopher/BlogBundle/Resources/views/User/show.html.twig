@@ -16,7 +16,7 @@
             <td>{{ user.lastname }}</td>
 
             {#Extra security#}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') or app.user == user %}
                 <td><a href="{{ path('nurolopher_blog_user_edit',{id:user.id}) }}">Edit</a></td>
                 <td><a href="{{ path('nurolopher_blog_user_delete',{id:user.id}) }}">Delete</a></td>
             {% endif %}</tr>
