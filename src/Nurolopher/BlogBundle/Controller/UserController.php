@@ -18,6 +18,7 @@ use Nurolopher\BlogBundle\Model\UserQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class UserController extends Controller
@@ -25,12 +26,19 @@ class UserController extends Controller
 
     public function indexAction()
     {
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+
         $users = UserQuery::create()->find();
         return $this->render('NurolopherBlogBundle:User:index.html.twig', array('users' => $users));
     }
 
     public function newAction(Request $request)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
         $user = new User();
         $form = $this->createForm(new UserType(), $user);
         $form->handleRequest($request);
@@ -81,15 +89,31 @@ class UserController extends Controller
         if (!$user) {
             throw new \PropelException();
         }
-        return $this->render('NurolopherBlogBundle:User:show.html.twig', array('user' => $user));
+        if ($user == $this->getUser() || $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+
+            return $this->render('NurolopherBlogBundle:User:show.html.twig', array('user' => $user));
+        } else {
+            throw new AccessDeniedException();
+        }
     }
 
     public function editAction($id)
     {
+
         $user = UserQuery::create()->findPk($id);
         $form = $this->createForm(new UserType(), $user);
         if (!$user) {
             throw new NotFoundHttpException();
+        }
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN') || (is_object($this->getUser()) && $this->getUser() == $user)) {
+            $form->handleRequest($this->get('request'));
+            if ($form->isValid()) {
+                $user->save();
+                $this->get('session')->getFlashBag()->set('success', 'User information has been successfully updated');
+                return $this->redirect($this->generateUrl('nurolopher_blog_user_show', array('id' => $user->getId())));
+            }
+        } else {
+            throw new AccessDeniedException();
         }
         return $this->render('NurolopherBlogBundle:User:edit.html.twig', array('form' => $form->createView()));
     }

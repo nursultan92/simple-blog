@@ -48,7 +48,7 @@ class CategoryController extends Controller
             $category->save();
 
             $this->get('session')->getFlashBag()->set('success', 'Category has been successfully edited');
-            $this->redirect($this->generateUrl('nurolopher_blog_category_index'));
+           return $this->redirect($this->generateUrl('nurolopher_blog_category_index'));
         }
         return $this->render('@NurolopherBlog/Category/new.html.twig', array('form' => $form->createView()));
     }
@@ -66,16 +66,10 @@ class CategoryController extends Controller
                 $this->get('session')->getFlashBag()->set('error', 'Please delete related posts first');
             }
             if ($category->isDeleted()) {
-                $this->get('session')->getFlashBag()->set('success', 'Category has beeen successfully deleted');
+                $this->get('session')->getFlashBag()->set('success', 'Category has been successfully deleted');
             }
         }
         return $this->redirect($this->generateUrl('nurolopher_blog_category_index'));
 
-    }
-
-    public function filterFormAction(\PropelCollection $collection)
-    {
-        $form = $this->createForm(new FilterPostType(), $this->get('request')->query->all());
-        return $this->render('@NurolopherBlog/Category/filter_form.html.twig', array('form' => $form->createView()));
     }
 } 

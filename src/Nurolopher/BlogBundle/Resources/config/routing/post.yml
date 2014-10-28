@@ -1,6 +1,8 @@
 nurolopher_blog_post_index:
-    path:     /
-    defaults: { _controller: NurolopherBlogBundle:Post:index }
+    path:     /{category_id}
+    defaults: { _controller: NurolopherBlogBundle:Post:index, category_id: null }
+    requirements:
+      category_id:  \d+
 
 nurolopher_blog_post_new:
     path:   /new

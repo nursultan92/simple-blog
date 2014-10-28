@@ -20,10 +20,13 @@
             <ul class="nav navbar-nav">
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('nurolopher_blog_category_index') }}">Categories</a></li>
-                    <li><a href="{{ path('nurolopher_blog_user_index') }}">Users</a></li>
+
                     <li><a href="{{ path('nurolopher_blog_group_index') }}">Groups</a></li>
-                    <li><a href="{{ path('nurolopher_blog_post_new') }}">New post</a></li>
-                    <li><a href="{{ path('nurolopher_blog_comment_index') }}">All comments</a></li>
+                    <li><a href="{{ path('nurolopher_blog_user_index') }}">Users</a></li>
+                    <li><a href="{{ path('nurolopher_blog_post_new') }}" class="active">New post</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+                    <li><a href="{{ path('nurolopher_blog_comment_index') }}">Comments</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

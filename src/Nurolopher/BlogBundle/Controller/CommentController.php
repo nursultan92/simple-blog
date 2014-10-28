@@ -22,11 +22,13 @@ class CommentController extends Controller
 
     public function indexAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->get('security.context')->isGranted('ROLE_MODERATOR')) {
+
+            $comments = CommentQuery::create()->find();
+            return $this->render('NurolopherBlogBundle:Comment:index.html.twig', array('comments' => $comments));
+        }else{
             throw new AccessDeniedException();
         }
-        $comments = CommentQuery::create()->find();
-        return $this->render('NurolopherBlogBundle:Comment:index.html.twig', array('comments' => $comments));
     }
 
     public function newAction($id)
@@ -56,7 +58,13 @@ class CommentController extends Controller
         if (!$comment) {
             throw new NotFoundHttpException();
         }
+        $this->isValidUser($comment);
         $form = $this->createForm(new CommentType(), $comment);
+        $form->handleRequest($this->get('request'));
+        if ($form->isValid()) {
+            $comment->save();
+            return $this->redirect($this->generateUrl('nurolopher_blog_post_show', array('id' => $comment->getPost()->getId())));
+        }
         return $this->render('@NurolopherBlog/Comment/edit.html.twig', array('form' => $form->createView()));
     }
 
@@ -66,11 +74,20 @@ class CommentController extends Controller
         if (!$comment) {
             throw new NotFoundHttpException();
         }
+        $this->isValidUser($comment);
         try {
             $comment->delete();
         } catch (\PropelException $e) {
             $this->get('session')->getFlashBag()->set('error', 'Could not delete comment');
         }
-        return $this->redirect($this->generateUrl('nurolopher_blog_comment_index'));
+        return $this->redirect($this->get('request')->headers->get('referer'));
+    }
+
+    public function isValidUser($comment)
+    {
+        $security = $this->get('security.context');
+        if (!(is_object($this->getUser()) && ($comment->getUser()->getEmail() == $this->getUser()->getEmail() || $security->isGranted('ROLE_ADMIN') || $security->isGranted('ROLE_MODERATOR')))) {
+            throw new AccessDeniedException();
+        }
     }
 }

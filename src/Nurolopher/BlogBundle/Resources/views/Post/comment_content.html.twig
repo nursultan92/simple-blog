@@ -1,4 +1,9 @@
 <section>
+    <strong>{{ comment.user.firstname }}</strong>
     <p>{{ comment.body }}</p>
-    <time class="text-muted">{{ comment.createdAt|date('D m Y') }}</time>
+    <time class="text-muted pull-right">{{ comment.createdAt|date('D m Y') }}</time>
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') or app.user == comment.user %}
+    <a href="{{ path('nurolopher_blog_comment_edit',{id:comment.id}) }}" class="text-danger">Edit</a>
+    <a href="{{ path('nurolopher_blog_comment_delete',{id:comment.id}) }}" class="text-danger">Delete</a>
+    {% endif %}
 </section>

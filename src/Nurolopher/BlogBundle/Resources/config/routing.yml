@@ -1,6 +1,6 @@
 nurolopher_blog_homepage:
     path:     /
-    defaults: { _controller: NurolopherBlogBundle:Post:index }
+    defaults: { _controller: NurolopherBlogBundle:Welcome:index}
 
 nurolopher_category:
     resource: "@NurolopherBlogBundle/Resources/config/routing/category.yml"
