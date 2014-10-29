@@ -32,7 +32,7 @@ As symfony uses composer as a default package management system. You need to
 download **composer** first to your projects root directory using **curl**
 
 If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+http://getcomposer.org/ or just run the following command in your projects root directory:
 
     curl -s http://getcomposer.org/installer | php
 
@@ -71,15 +71,22 @@ First set your database name in `parameters.yml`
     php app/console propel:sql:insert --force
     php app/console propel:fixtures:load
 
+Start php built in server:
+   
+    php app/console server:run
+    
+Go to *http://127.0.0.1:8000* and enjoy!
+
+
 4) Users
 ---------
 There are by default 3 users
 
    Role | Email | Password
    -----|-------|---------
- Administrator | *admin@example.com*    | password
- Moderator     | *moderator@example.cm* | password
- User          | *user@example.com*     | password
+ Administrator | admin@example.com    | password
+ Moderator     | moderator@example.com | password
+ User          | user@example.com     | password
 
 What's inside?
 ---------------
