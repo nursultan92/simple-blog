@@ -29,6 +29,12 @@ Nurolopher\BlogBundle\Model\User:
         firstname: User
         lastname: User
         groups_id: Group_3
+    User_3:
+        email: moderator@example.com
+        salt: ewbc02c3hlsks440skw8w88kwkwk4gs
+        password: +mGGfW+N3mRZLGLeHppkZnrCi2JYDgCc6maOC94ooiN7P4T5pfBCVhWeBj6pNpLVBbHgN2wsbMIjYWz6czG3Ew==
+        firstname: Moderator
+        groups_id: Group_2
 Nurolopher\BlogBundle\Model\Post:
     Post_1:
         title: 'Verizon Droid Turbo boasts a ''monster'' battery that can last 2 days'
