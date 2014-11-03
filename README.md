@@ -141,3 +141,7 @@ Enjoy!
 [11]: http://symfony.com/doc/2.5/cookbook/logging/monolog.html
 [12]: http://symfony.com/doc/2.5/cookbook/assetic/asset_management.html
 [13]: http://symfony.com/doc/2.5/bundles/SensioGeneratorBundle/index.html
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nursultan92/simple-blog/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
